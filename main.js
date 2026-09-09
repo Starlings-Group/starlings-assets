@@ -1,324 +1,695 @@
-// --- 1. DATABASE KONTEN: SERVICES & INDUSTRIES ---
-const serviceData = {
-    "pembukuan": {
-        title: "Bookkeeping (Accounting)", subtitle: "Precise Financial Recording for the Right Business Decisions.", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
-        desc1: "Our Bookkeeping services are designed to free you from the complexities of daily financial administration. We don't just record numbers; we ensure every business transaction is documented neatly, accurately, and in accordance with general accounting principles.",
-        desc2: "With proper bookkeeping, you will have full visibility over your company's cash flow, profitability, and asset position. The reports we provide are ready for management analysis, tax reporting, or presentations to investors.",
-        listTitle: "What We Do?", list: ["Daily transaction journal recording (Cash In, Cash Out, Purchases, Sales).", "Monthly Bank Reconciliation to ensure data accuracy.", "General Ledger Preparation.", "Accounts Payable and Receivable Management (AP/AR Aging Report).", "Preparation of Monthly & Annual Financial Statements."],
-        standards: [{icon: "fas fa-book", title: "PSAK / IFRS", desc: "Compliance with Financial Accounting Standards applicable globally and locally."}, {icon: "fas fa-check-double", title: "Double-Entry System", desc: "Double-entry bookkeeping system to minimize errors."}, {icon: "fas fa-lock", title: "Data Confidentiality", desc: "Complete guarantee of client financial data confidentiality."}]
-    },
-    "pajak": {
-        title: "Tax Services", subtitle: "Comprehensive Tax Compliance for Your Business Peace of Mind.", img: "https://images.unsplash.com/photo-1554224154-26032ffc0d04?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
-        desc1: "Ever-evolving tax regulations often present a unique challenge for business owners. Our Tax Services are here to ensure that all your tax obligations are managed timely, accurately, and in accordance with the latest applicable regulations, safeguarding you from administrative sanctions or penalties.",
-        desc2: "We provide comprehensive management ranging from the calculation, payment, to the reporting of various types of corporate and individual taxes professionally.",
-        listTitle: "Our Tax Coverage", list: ["Value Added Tax (VAT): Calculation of Input/Output VAT and Periodic VAT Return Reporting.", "Income Tax / Withholding Tax (WHT): Management of Income Tax Article 21, 22, 23, 24, 25, and 28/29.", "Tax Document Administration: Preparation of Withholding Tax Slips and issuance of Tax Invoices.", "Annual Tax Returns: Preparation and reporting of Annual Taxes.", "Local Taxes: Processing of PBJT and other relevant tax obligations."],
-        standards: [{icon: "fas fa-shield-alt", title: "Tax Compliance", desc: "Ensuring 100% tax compliance based on the latest Tax Laws."}, {icon: "fas fa-clock", title: "Timely Delivery", desc: "Always on-time tax reporting and payment to avoid penalties."}, {icon: "fas fa-lightbulb", title: "Tax Planning", desc: "Legal tax planning strategies to optimize the corporate tax burden."}]
-    },
-    "internal-control": {
-        title: "Internal Control", subtitle: "Secure Your Business Assets with a Robust Control System.", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
-        desc1: "Growing businesses often face risks of operational leaks, inefficiencies, or even internal fraud. Our Internal Control services aim to create 'safeguards' that protect your company's assets without hindering operational speed.",
-        desc2: "We perform in-depth diagnostics of your workflow, identify weak points, and design practical yet rigorous Standard Operating Procedures (SOPs) tailored for implementation.",
-        listTitle: "Our Focus Areas", list: ["Operational audits and business risk evaluation.", "SOP Design & Implementation (Finance, Procurement, Inventory, Sales).", "Stock Opname & Asset Tagging Management.", "Fraud prevention and data discrepancy investigations.", "Workflow optimization for cost efficiency."],
-        standards: [{icon: "fas fa-shield-alt", title: "COSO Framework", desc: "Adopting the Committee of Sponsoring Organizations principles for internal controls."}, {icon: "fas fa-search-dollar", title: "Risk-Based Audit", desc: "Focusing on areas with the highest financial risks."}, {icon: "fas fa-file-contract", title: "Compliance", desc: "Ensuring compliance with corporate and government regulations."}]
-    },
-    "manajemen-keuangan": {
-        title: "Financial Management", subtitle: "Financial Strategies for Sustainable Growth.", img: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80",
-        desc1: "Accounting data is just a collection of numbers if it isn't analyzed. Our Financial Management services translate these numbers into strategic insights. We help Business Owners plan the future, not just record the past.",
-        desc2: "From cash flow management ensuring uninterrupted operations to realistic annual budgeting for expansion, we act as your strategic partner (virtual CFO).",
-        listTitle: "Strategic Solutions", list: ["Cash Flow Management & Forecasting.", "Annual Budgeting.", "Financial Ratio Analysis (Liquidity, Solvency, Profitability).", "Feasibility Studies for new projects.", "Cost Reduction Strategies."],
-        standards: [{icon: "fas fa-chart-pie", title: "Financial Ratio Analysis", desc: "Using industry standard ratios to benchmark performance."}, {icon: "fas fa-money-bill-wave", title: "Cash Flow Modeling", desc: "Detailed cash projections to mitigate liquidity risks."}, {icon: "fas fa-bullseye", title: "KPI Monitoring", desc: "Establishing measurable key financial performance indicators."}]
-    }
-};
+// --- ADMIN SYSTEM MOCKUP ---
+    let isAdmin = localStorage.getItem('starlingsAdmin') === 'true';
 
-const industryData = {
-    "financial": { title: "Financial Services & Regulators", subtitle: "Strict Compliance and Complex Risk Management.", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f", chal: "The financial sector, encompassing banks, insurance companies, cooperatives, and regulators, faces unparalleled scrutiny. The primary challenges are strict regulatory compliance (OJK/BI), managing capital adequacy, and navigating complex market risks.", sol: ["<strong>Regulatory Compliance:</strong> Framework design aligning internal processes with OJK & BI.", "<strong>Audit & Risk Advisory:</strong> Comprehensive internal audit support and GCG implementation.", "<strong>Financial Modeling:</strong> Asset-Liability management and capital adequacy forecasting."], sec: [{icon:"fas fa-university", name:"Banking & Insurance"},{icon:"fas fa-landmark", name:"Financial Regulators"},{icon:"fas fa-users", name:"Cooperatives"},{icon:"fas fa-chart-line", name:"Accounting Firms"}] },
-    "tech-ecommerce": { title: "Tech & E-Commerce", subtitle: "High Transaction Volumes and Rapid Scaling Strategies.", img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c", chal: "The massive volume of micro-transactions creates a nightmare for payment gateway reconciliation. Furthermore, tech startups face unique challenges in runway calculation, cash-burn management, and investor reporting.", sol: ["<strong>Revenue Reconciliation:</strong> API-integrated accounting strategies to match digital payments.", "<strong>Startup Financial Modeling:</strong> Detailed runway forecasting and unit economics analysis.", "<strong>Investor Reporting:</strong> Preparing clean, IFRS-compliant financial decks."], sec: [{icon:"fas fa-laptop-code", name:"Information Technology"},{icon:"fas fa-shopping-bag", name:"E-Commerce Platforms"},{icon:"fas fa-network-wired", name:"Trade & IT Services"}] },
-    "manufacturing": { title: "Manufacturing & Equipment", subtitle: "COGS Optimization and Inventory Valuation.", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158", chal: "Factories and distributors operate with massive inventories. The core accounting challenge lies in tracking the exact Cost of Goods Sold (COGS) through complex production stages while managing equipment depreciation.", sol: ["<strong>Standard Costing Systems:</strong> Establishing accurate Bill of Materials (BOM) accounting.", "<strong>Inventory & Asset Valuation:</strong> Rigorous stock opname procedures and fixed asset tagging.", "<strong>Supply Chain Financial Control:</strong> Streamlining accounts payable to vendors."], sec: [{icon:"fas fa-industry", name:"Manufacturing Plants"},{icon:"fas fa-truck-moving", name:"Heavy Equipment"},{icon:"fas fa-cogs", name:"Machine Shops"}] },
-    "real-estate": { title: "Real Estate & Infrastructure", subtitle: "Long-Term Project Accounting and Capital Management.", img: "https://images.unsplash.com/photo-1541888086925-920a0eb47134", chal: "Property developers deal with multi-year projects that make standard accounting impossible. Recognizing revenue correctly according to PSAK 115 and surviving capital-intensive cash flow droughts are daily struggles.", sol: ["<strong>Project Accounting:</strong> Percentage-of-completion methods for accurate revenue recognition.", "<strong>Cash Flow Modeling:</strong> Precise liquidity forecasts to prevent project stalling.", "<strong>Tax Strategy:</strong> Handling Final Income Tax (PPh Final) efficiently."], sec: [{icon:"fas fa-building", name:"Property Developers"},{icon:"fas fa-hard-hat", name:"Construction Services"},{icon:"fas fa-road", name:"SOE Infrastructure"}] },
-    "retail": { title: "Retail & Trading", subtitle: "Inventory Synchronization and Multi-Branch Reporting.", img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8", chal: "For fashion brands and traders, inventory is cash. The biggest threat is shrinkage (loss/theft), discrepancies between Point of Sale (POS) and warehouse systems, and managing working capital.", sol: ["<strong>System Integration:</strong> Ensuring POS, inventory, and accounting systems speak the same language.", "<strong>Shrinkage Mitigation:</strong> Strict warehouse-to-store transfer SOPs.", "<strong>AR/AP Management:</strong> Tight control over B2B accounts receivable."], sec: [{icon:"fas fa-store", name:"Retail & Fashion"},{icon:"fas fa-boxes", name:"General Suppliers"},{icon:"fas fa-gift", name:"Gift & Commodities"}] },
-    "fnb": { title: "Hospitality & F&B", subtitle: "Serving Restaurants, Hotels, and Culinary Businesses.", img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4", chal: "The Food & Beverage sectors face extremely tight margins. The primary challenges involve preventing margin leakage from perishable materials, and risks of theft or discrepancy in daily cash collections.", sol: ["<strong>Daily Food Cost Analysis:</strong> Monitoring COGS per menu item.", "<strong>Strict Inventory SOPs:</strong> Regular stock-taking procedures.", "<strong>POS Integration:</strong> Ensuring cashier transactions match the ledger.", "<strong>Menu Profitability Reporting:</strong> Identifying 'Star' vs 'Dog' items."], sec: [{icon:"fas fa-utensils", name:"Food and Beverage (F&B)"},{icon:"fas fa-concierge-bell", name:"Restaurants & Cafes"},{icon:"fas fa-hotel", name:"Hotels & Villas"}] },
-    "garment": { title: "Garment & Apparel", subtitle: "Managing Labor-Intensive Payrolls and Custom Order Flexibility.", img: "https://images.unsplash.com/photo-1512413914633-b5043f4041ea", chal: "Primary challenges include complex piece-rate payroll management for thousands of employees, tracking custom Purchase Orders (PO), and managing fabric waste (scraps).", sol: ["<strong>Job Order Costing:</strong> Calculating precise production costs per order.", "<strong>Payroll & HR SOPs:</strong> Integrated payroll systems tied to factory attendance.", "<strong>Material Usage Control:</strong> Monitoring fabric waste and reconciling POs."], sec: [{icon:"fas fa-tshirt", name:"Garment Industry"},{icon:"fas fa-cut", name:"Apparel Production"},{icon:"fas fa-industry", name:"Apparel Manufacturing"}] },
-    "textile": { title: "Textile Industry", subtitle: "Raw Material Control and Mass Production Efficiency.", img: "https://images.unsplash.com/photo-1524292332709-b33366a7f165", chal: "The global textile industry faces volatile pricing pressures on raw materials. On the production side, the main challenge is material efficiency (yield). Excessive waste cuts directly into profit margins.", sol: ["<strong>Production Cost Accounting:</strong> Precise COGS calculations incorporating materials, labor, and overhead.", "<strong>Waste Control:</strong> Monitoring the ratio of inputs vs. production outputs.", "<strong>Working Capital Management:</strong> Strategies for supplier payments vs. collections."], sec: [{icon:"fas fa-scroll", name:"Textile Manufacturers"},{icon:"fas fa-box", name:"Fabric Suppliers"}] },
-    "education-ngo": { title: "NGOs & Public Sector", subtitle: "Fund Accountability and Transparency for Donor Trust.", img: "https://images.unsplash.com/photo-1593113598332-cd288d649433", chal: "The primary challenge is Fund Accounting—separating restricted funds from specific donors and unrestricted funds. Recording errors can result in a loss of donor trust or legal compliance issues.", sol: ["<strong>Fund Accounting Systems:</strong> Clear segregation of records based on funding sources.", "<strong>Grant Compliance SOPs:</strong> Ensuring fund usage complies with donor agreements.", "<strong>Budget Realization Reporting:</strong> Transparent Budget vs. Actual comparison reports."], sec: [{icon:"fas fa-hand-holding-heart", name:"NGOs & Foundations"},{icon:"fas fa-graduation-cap", name:"Education Institutions"},{icon:"fas fa-seedling", name:"Village-Owned Enterprises (BUMDES)"}] },
-    "kecantikan": { title: "Beauty & Wellness", subtitle: "Managing Thousands of SKUs and Complex Commission Schemes.", img: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9", chal: "Beauty clinics have huge SKU volumes and strict expiration dates. Miscalculating doctor, therapist, and beauty consultant commissions is often a source of disputes and cash leakage.", sol: ["<strong>Per-SKU Inventory System:</strong> Detailed tracking of stock down to the smallest unit (gr/ml).", "<strong>Automated Commission Audits:</strong> Verification of commission calculations.", "<strong>Expiration Control:</strong> Early warning systems for stock approaching expiration."], sec: [{icon:"fas fa-spa", name:"Beauty Clinics & Salons"},{icon:"fas fa-prescription-bottle-alt", name:"Skincare Retailers"}] },
-    "services": { title: "Professional Services", subtitle: "Project-Based Billing and Profitability Tracking.", img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7", chal: "Creative agencies and consulting firms do not sell physical goods. The challenge is accurately tracking project profitability, managing variable retainer incomes, and minimizing unbillable hours.", sol: ["<strong>Project Profitability Analysis:</strong> Allocating overhead costs to specific projects.", "<strong>Invoicing Systems:</strong> Streamlining the billing process to reduce AR aging.", "<strong>Tax Advisory:</strong> Managing Withholding Tax (PPh 23/21) for service fees."], sec: [{icon:"fas fa-bullhorn", name:"Creative Agencies"},{icon:"fas fa-briefcase", name:"Consulting Firms"},{icon:"fas fa-cogs", name:"Service Providers"}] },
-    "mining": { title: "Mining & Resources", subtitle: "Navigating Capex, Depletion, and Environmental Compliance.", img: "https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b", chal: "Managing depletion accounting, fluctuating global commodity prices, and stringent government environmental tax provisions require specialized expertise.", sol: ["<strong>Depletion Accounting:</strong> Proper capitalization and calculation of resource depletion.", "<strong>Supply Chain Financial Tracking:</strong> Monitoring logistics and heavy machinery costs.", "<strong>Tax & Royalty Compliance:</strong> Ensuring exact calculation of government non-tax revenues."], sec: [{icon:"fas fa-mountain", name:"Mining Corporations"},{icon:"fas fa-oil-can", name:"Energy & Resources"}] },
-    "holding": { title: "Corporate Holding", subtitle: "Consolidated Financials Across Diverse Subsidiaries.", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab", chal: "Holding companies managing portfolios across various sectors face extreme consolidation complexity, including intercompany transactions and transfer pricing.", sol: ["<strong>Financial Consolidation:</strong> Eliminating intercompany balances.", "<strong>Group Tax Planning:</strong> Ensuring transfer pricing documentation is compliant.", "<strong>Subsidiary Audits:</strong> Standardizing internal control procedures across entities."], sec: [{icon:"fas fa-sitemap", name:"Holding Companies"},{icon:"fas fa-globe", name:"Multi-Industry Groups"}] },
-    "agriculture": { title: "Agriculture & Farming", subtitle: "Biological Asset Valuation and Seasonal Costing.", img: "https://images.unsplash.com/photo-1605000797499-95a51c5269ae", chal: "Accounting for biological assets (PSAK 69), tracking unpredictable yields due to weather, and managing highly irregular cash flows between planting and harvest seasons.", sol: ["<strong>Biological Asset Accounting:</strong> Implementing fair value accounting for living crops/animals.", "<strong>Harvest Costing:</strong> Analyzing exact yield costs versus market pricing.", "<strong>Seasonal Budgeting:</strong> Maintaining liquidity during planting seasons."], sec: [{icon:"fas fa-tractor", name:"Farming & Agriculture"},{icon:"fas fa-seedling", name:"Plantations"}] },
-    "entertainment": { title: "Media & Entertainment", subtitle: "Event-Based Budgeting and Intellectual Property.", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819", chal: "The accounting challenge is managing highly variable revenue streams, event-specific P&L tracking, and amortizing intangible assets like intellectual property or production rights.", sol: ["<strong>Event P&L Tracking:</strong> Isolating costs and revenues per event.", "<strong>IP & Royalty Accounting:</strong> Accurately tracking royalty payouts.", "<strong>Vendor Control:</strong> Strict SOPs for managing third-party vendor payments."], sec: [{icon:"fas fa-film", name:"Media & Entertainment"},{icon:"fas fa-music", name:"Event Organizers"}] }
-};
-
-const partnerInfoData = {
-    "anang": { name: "Dr. Anang Witjaksono...", role: "Partner – Finance, Audit, Risk & Tax Advisory", img: "https://lh3.googleusercontent.com/d/1zQ1FvtPfrQUWJABE40pSBVE4Wzi3M3pT", html: "<h3 class='text-xl font-bold mb-3 border-l-4 border-brand-primary pl-3'>About Him</h3><p class='mb-4'>Dr. Anang Witjaksono is an authoritative figure in Indonesia's Finance, Accounting, and Risk Management industries...</p>" },
-    "umam": { name: "M. Khaerul Umam...", role: "Partner – Tax & Business Advisory", img: "https://lh3.googleusercontent.com/d/1C8Z_yoJWGNx5OXzdVXYKrsftoAA0Fkzb", html: "<h3 class='text-xl font-bold mb-3 border-l-4 border-brand-primary pl-3'>About Him</h3><p class='mb-4'>M. Khaerul Umam represents the modern generation of financial professionals...</p>" },
-    "vitaloka": { name: "Vitaloka Kemaladewi Hutagalung...", role: "Partner – Corporate Finance, Risk Management & Tax Dispute", img: "https://lh3.googleusercontent.com/d/1buB6l5TI1JEYUNprywBQ2BfJMZdLV18g", html: "<h3 class='text-xl font-bold mb-3 border-l-4 border-brand-primary pl-3'>About Her</h3><p class='mb-4'>Vitaloka Kemaladewi Hutagalung represents a rare blend of a reliable corporate manager and a dynamic entrepreneur...</p>" },
-    "seni": { name: "Seni Nafisah Maullina...", role: "Partner – Financial Accounting & Business Advisory", img: "https://lh3.googleusercontent.com/d/1NvCQy7xSGijgGtT-8g7-u9BouGoqIBAs", html: "<h3 class='text-xl font-bold mb-3 border-l-4 border-brand-primary pl-3'>About Her</h3><p class='mb-4'>Seni Nafisah Maullina is a highly dedicated accounting practitioner with a solid track record...</p>" },
-    "wulan": { name: "Wulan Nurani...", role: "Partner – Multi-Industry Tax & Accounting Advisory", img: "https://lh3.googleusercontent.com/d/1FBooMEtjZ4YolOC5aocuUdzR0e_2staz", html: "<h3 class='text-xl font-bold mb-3 border-l-4 border-brand-primary pl-3'>About Her</h3><p class='mb-4'>Wulan Nurani represents the profile of a modern, agile accountant with high adaptability...</p>" },
-    "frias": { name: "Frias Valentino K.E....", role: "Partner – Internal Control, Fraud Mitigation & Business System Advisory", img: "https://lh3.googleusercontent.com/d/1cXoqilJ_ll-siUH36dHg_cmM_btFV28B", html: "<h3 class='text-xl font-bold mb-3 border-l-4 border-brand-primary pl-3'>About Him</h3><p class='mb-4'>Frias Valentino represents the profile of today's accountant and financial consultant: tactical, analytical, and system-resilience oriented...</p>" }
-};
-
-// --- 2. DYNAMIC RENDERING FUNCTIONS ---
-function renderDynamicService(id) {
-    const data = serviceData[id];
-    if(!data) return;
-    const stdHtml = data.standards.map(s => `<div class='flex items-start'><i class='${s.icon} text-brand-primary mt-1 mr-3'></i> <div><h4 class='font-bold text-black text-sm'>${s.title}</h4><p class='text-xs text-gray-600'>${s.desc}</p></div></div>`).join('');
-    const listHtml = data.list.map(l => `<li>${l}</li>`).join('');
-    
-    document.getElementById('dynamic-service-view').innerHTML = `
-        <div class='relative h-[400px] w-full flex items-center justify-center bg-gray-100 overflow-hidden'>
-            <img class='absolute inset-0 w-full h-full object-cover opacity-[0.15]' src='${data.img}'/>
-            <div class='absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent'></div> 
-            <div class='relative z-10 text-center px-4'>
-                <h1 class='text-4xl md:text-5xl font-bold text-black mb-4'>${data.title}</h1>
-                <p class='text-xl text-black'>${data.subtitle}</p>
-            </div>
-        </div>
-        <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-20'>
-            <div class='bg-white border border-gray-200 p-8 md:p-12 shadow-xl rounded-lg'>
-                <div class='text-sm text-gray-500 mb-6'>
-                    <span class='hover:text-brand-primary cursor-pointer' onclick='showPage("home")'>Home</span> <i class='fas fa-chevron-right mx-2 text-xs'></i> <span class='text-brand-primary'>Services</span> <i class='fas fa-chevron-right mx-2 text-xs'></i> <span>${data.title}</span>
-                </div>
-                <div class='grid grid-cols-1 md:grid-cols-3 gap-12'>
-                    <div class='md:col-span-2 space-y-6'>
-                        <h2 class='text-3xl font-bold text-black mb-4 border-l-4 border-brand-primary pl-4'>Service Description</h2>
-                        <p class='text-black leading-relaxed'>${data.desc1}</p>
-                        <p class='text-black leading-relaxed'>${data.desc2}</p>
-                        <h3 class='text-xl font-bold text-black mt-8 mb-4'>${data.listTitle}</h3>
-                        <ul class='service-list text-black space-y-2'>${listHtml}</ul>
-                    </div>
-                    <div class='bg-gray-50 p-6 rounded-lg border border-gray-200 h-fit'>
-                        <h3 class='text-xl font-bold text-brand-primary mb-4'>Standards &amp; Quality</h3>
-                        <div class='space-y-4'>${stdHtml}</div>
-                        <div class='mt-8 pt-6 border-t border-gray-200'>
-                            <a class='block w-full bg-brand-primary text-white rounded font-bold text-center py-3 hover:bg-black transition' href='https://wa.me/6289671312942' target='_blank'>Consult Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-function renderDynamicIndustry(id) {
-    const data = industryData[id];
-    if(!data) return;
-    const solHtml = data.sol.map(s => `<li>${s}</li>`).join('');
-    const secHtml = data.sec.map(s => `<li class='border-b border-gray-200 pb-2'><i class='${s.icon} text-brand-primary w-5'></i> ${s.name}</li>`).join('');
-
-    document.getElementById('dynamic-industry-view').innerHTML = `
-        <div class='relative h-[400px] w-full flex items-center justify-center bg-gray-100 overflow-hidden'>
-            <img class='absolute inset-0 w-full h-full object-cover opacity-[0.15]' src='${data.img}?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'/>
-            <div class='absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent'></div>
-            <div class='relative z-10 text-center px-4'>
-                <h1 class='text-4xl md:text-5xl font-bold text-black mb-4'>${data.title}</h1>
-                <p class='text-xl text-black'>${data.subtitle}</p>
-            </div>
-        </div>
-        <div class='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-20'>
-            <div class='bg-white border border-gray-200 p-8 md:p-12 shadow-xl rounded-lg'>
-                <div class='text-sm text-gray-500 mb-6'>
-                    <span class='hover:text-brand-primary cursor-pointer' onclick='showPage("home")'>Home</span> <i class='fas fa-chevron-right mx-2 text-xs'></i> <span class='text-brand-primary'>Industries</span> <i class='fas fa-chevron-right mx-2 text-xs'></i> <span>${data.title}</span>
-                </div>
-                <div class='grid grid-cols-1 md:grid-cols-3 gap-12'>
-                    <div class='md:col-span-2 space-y-6'>
-                        <h2 class='text-3xl font-bold text-black mb-4 border-l-4 border-brand-primary pl-4'>Industry Challenges</h2>
-                        <p class='text-black leading-relaxed'>${data.chal}</p>
-                        <h3 class='text-xl font-bold text-black mt-8 mb-4'>STARLINGS Solutions</h3>
-                        <ul class='service-list text-black space-y-2'>${solHtml}</ul>
-                    </div>
-                    <div class='bg-gray-50 p-6 rounded-lg border border-gray-200 h-fit'>
-                        <h3 class='text-xl font-bold text-brand-primary mb-4'>Target Sectors</h3>
-                        <ul class='text-black space-y-3 text-sm'>${secHtml}</ul>
-                        <div class='mt-8 pt-6 border-t border-gray-200'><a class='block w-full bg-brand-primary text-white font-bold text-center py-3 hover:bg-black transition rounded' href='https://wa.me/6289671312942' target='_blank'>Consult Now</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-// --- 3. PAGE ROUTING & UI LOGIC ---
-function showPage(pageId, addToHistory = true, partnerId = null) {
-    const staticPages = ['home-view', 'company-profile', 'partner-detail-view', 'career-view', 'rfp-view', 'research-view', 'news-view', 'activities-view'];
-    
-    let targetId = pageId;
-    if (pageId === 'home') targetId = 'home-view';
-    if (pageId === 'career') targetId = 'career-view';
-    if (pageId === 'rfp') targetId = 'rfp-view'; 
-
-    // Handle Dynamic Rendering
-    if (pageId.startsWith('service-')) {
-        renderDynamicService(pageId.replace('service-', ''));
-        targetId = 'dynamic-service-view';
-    } else if (pageId.startsWith('industry-')) {
-        renderDynamicIndustry(pageId.replace('industry-', ''));
-        targetId = 'dynamic-industry-view';
-    }
-
-    if (!staticPages.includes(targetId) && targetId !== 'dynamic-service-view' && targetId !== 'dynamic-industry-view') {
-        targetId = 'home-view';
-    }
-
-    // Hide all pages
-    document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
-
-    // Show target
-    const targetEl = document.getElementById(targetId);
-    if (targetEl) targetEl.classList.remove('hidden');
-    
-    if(targetId === 'home-view' && typeof google !== 'undefined' && google.visualization) {
-        setTimeout(fetchAndDrawMap, 100);
-    }
-    window.scrollTo(0,0);
-
-    if (addToHistory) {
-        const url = new URL(window.location);
-        if (targetId === 'home-view') {
-            url.searchParams.delete('page');
-            url.searchParams.delete('id');
-        } else {
-            url.searchParams.set('page', pageId);
-            if (partnerId) url.searchParams.set('id', partnerId);
-            else url.searchParams.delete('id');
+    function promptAdminLogin() {
+        if (isAdmin) {
+            Swal.fire({
+                title: 'Admin Logged In',
+                text: 'You already have admin privileges. Do you want to logout?',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Logout',
+                confirmButtonColor: '#E35336'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.setItem('starlingsAdmin', 'false');
+                    isAdmin = false;
+                    toggleAdminUI();
+                    Swal.fire('Logged Out', '', 'success');
+                }
+            });
+            return;
         }
-        if (url.href !== window.location.href) window.history.pushState({ page: pageId, id: partnerId }, '', url);
-    }
-}
 
-// --- 4. ADMIN & UTILITIES (Map, SweetAlert, RFP, etc) ---
-let isAdmin = localStorage.getItem('starlingsAdmin') === 'true';
-
-function promptAdminLogin() {
-    if (isAdmin) {
-        Swal.fire({ title: 'Admin Logged In', text: 'You already have admin privileges. Do you want to logout?', icon: 'info', showCancelButton: true, confirmButtonText: 'Logout', confirmButtonColor: '#E35336' }).then((r) => {
-            if (r.isConfirmed) { localStorage.setItem('starlingsAdmin', 'false'); isAdmin = false; toggleAdminUI(); Swal.fire('Logged Out', '', 'success'); }
-        }); return;
-    }
-    Swal.fire({
-        title: 'Admin Login', html: '<input id="swal-input1" class="swal2-input" placeholder="Email"><input id="swal-input2" class="swal2-input" type="password" placeholder="Password">', focusConfirm: false, confirmButtonColor: '#E35336',
-        preConfirm: () => {
-            if (document.getElementById('swal-input1').value === 'office@starlings-group.com' && document.getElementById('swal-input2').value === 'GoInternasional!Amin') return true;
-            Swal.showValidationMessage('Invalid email or password'); return false;
-        }
-    }).then((r) => {
-        if (r.isConfirmed) { localStorage.setItem('starlingsAdmin', 'true'); isAdmin = true; toggleAdminUI(); Swal.fire({ icon: 'success', title: 'Login Successful', text: 'Access granted.', confirmButtonColor: '#E35336' }); }
-    });
-}
-
-function toggleAdminUI() {
-    document.querySelectorAll('.admin-controls').forEach(el => isAdmin ? el.classList.remove('hidden') : el.classList.add('hidden'));
-    document.querySelectorAll('.admin-editable, .page-section p, .page-section h1, .page-section h2, .page-section h3, .page-section h4, .page-section li, .page-section span').forEach(el => {
-        if(el.tagName === 'I' || el.tagName === 'BUTTON' || el.closest('button')) return;
-        if (isAdmin) el.setAttribute('contenteditable', 'true'); else el.removeAttribute('contenteditable');
-    });
-    const lockIcon = document.getElementById('admin-lock-icon');
-    if(lockIcon) {
-        lockIcon.className = isAdmin ? 'fas fa-unlock text-xl text-brand-primary' : 'fas fa-lock text-xl';
-    }
-}
-
-function openUploadModal(type) {
-    let link = type==='research' ? '17-TA9jdphHh4fvvMUqNHTSkH5EWDTDRJ' : type==='news' ? '1yNmoZI5OITqBjiBMmt5idjr_js8-sNhD' : '1J0wSTN-SGYEzvXsmnLU0lxXHyIcRiy3y';
-    Swal.fire({ title: `Upload ${type}`, html: `<p class="mb-4">Upload files to Google Drive:</p><a href="https://drive.google.com/open?id=${link}&usp=drive_copy" target="_blank" class="block w-full bg-brand-primary text-white py-2 rounded"><i class="fab fa-google-drive"></i> Open Folder</a>`, showConfirmButton: false, showCloseButton: true });
-}
-
-function showPartnerProfile(id) {
-    const data = partnerInfoData[id];
-    if (!data) return;
-    document.getElementById('pd-img').src = data.img;
-    document.getElementById('pd-name').innerText = data.name;
-    document.getElementById('pd-role').innerText = data.role;
-    document.getElementById('pd-content').innerHTML = data.html;
-    showPage('partner-detail-view', true, id);
-    if(isAdmin) toggleAdminUI();
-}
-
-function generateRfpQrCode() { Swal.fire({ title: 'RFP QR Code', imageUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(window.location.origin + window.location.pathname + '?page=rfp-view'), imageWidth: 250, confirmButtonColor: '#E35336' }); }
-function generateCurrentUrlQrCode() { Swal.fire({ title: 'Profile QR', imageUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(window.location.href), imageWidth: 250, confirmButtonColor: '#E35336' }); }
-
-window.addEventListener('load', function() {
-    const p = new URLSearchParams(window.location.search).get('page');
-    const id = new URLSearchParams(window.location.search).get('id');
-    if (p === 'partner-detail-view' && id) showPartnerProfile(id);
-    else if (p) showPage(p, false);
-    else if(document.getElementById('home-view')) document.getElementById('home-view').classList.remove('hidden');
-    if (!p || p === 'home') if (typeof google !== 'undefined' && google.visualization) setTimeout(fetchAndDrawMap, 100);
-    toggleAdminUI();
-});
-
-window.addEventListener('popstate', function() {
-    const p = new URLSearchParams(window.location.search).get('page');
-    const id = new URLSearchParams(window.location.search).get('id');
-    if (p === 'partner-detail-view' && id) showPartnerProfile(id); else showPage(p || 'home', false);
-});
-
-// Map & Treemap
-if (typeof google !== 'undefined') { google.charts.load('current', {'packages':['geochart', 'treemap']}); google.charts.setOnLoadCallback(fetchAndDrawMap); }
-
-async function fetchAndDrawMap() {
-    const mapC = document.getElementById('regions_div'), treeC = document.getElementById('industry_treemap');
-    if (!mapC || !treeC) return;
-    try {
-        const res = await fetch('https://docs.google.com/spreadsheets/d/1LyOMXw6yn2AI_5s6OnUDiYZ-CYAkyyS9Rt0yPXpa1QA/gviz/tq?tqx=out:json&sheet=db');
-        const text = await res.text();
-        const data = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
-        let total = 0, provData = {}, indData = {};
-        
-        data.table.rows.forEach(r => {
-            if(!r || !r.c) return;
-            if (r.c[2] && r.c[2].v) {
-                total++;
-                let p = r.c[2].v.toString().toLowerCase();
-                let iso = p.includes("aceh")?"ID-AC":p.includes("bali")?"ID-BA":p.includes("jakarta")?"ID-JK":p.includes("jawa barat")?"ID-JB":p.includes("jawa tengah")?"ID-JT":p.includes("jawa timur")?"ID-JI":p.includes("kalimantan timur")?"ID-KI":null; // Simplified for length, add more if needed
-                if(iso) provData[iso] = (provData[iso] || 0) + 1;
-                
-                if (r.c[4] && r.c[4].v) {
-                    let ind = r.c[4].v.toString().trim() || 'Other';
-                    indData[ind] = (indData[ind] || 0) + 1;
+        Swal.fire({
+            title: 'Admin Login',
+            html:
+                '<input id="swal-input1" class="swal2-input" placeholder="Email">' +
+                '<input id="swal-input2" class="swal2-input" type="password" placeholder="Password">',
+            focusConfirm: false,
+            confirmButtonColor: '#E35336',
+            preConfirm: () => {
+                const email = document.getElementById('swal-input1').value;
+                const password = document.getElementById('swal-input2').value;
+                if (email === 'office@starlings-group.com' && password === 'GoInternasional!Amin') {
+                    return true;
+                } else {
+                    Swal.showValidationMessage('Invalid email or password');
+                    return false;
                 }
             }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.setItem('starlingsAdmin', 'true');
+                isAdmin = true;
+                toggleAdminUI();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful',
+                    text: 'You now have access to upload Content, News, and Research. You can directly edit the text on the page.',
+                    confirmButtonColor: '#E35336'
+                });
+            }
         });
-        document.getElementById('stat-total-companies').innerText = total;
+    }
 
-        var mapTable = new google.visualization.DataTable(); mapTable.addColumn('string','Province'); mapTable.addColumn('number','Clients');
-        for (let i in provData) mapTable.addRow([i, provData[i]]);
-        new google.visualization.GeoChart(mapC).draw(mapTable, { region:'ID', resolution:'provinces', colorAxis:{colors:['#fca5a5','#E35336']}, backgroundColor:'transparent', legend:'none' });
+    function toggleAdminUI() {
+        const adminControls = document.querySelectorAll('.admin-controls');
+        adminControls.forEach(el => {
+            if (isAdmin) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        });
+        
+        const editableTexts = document.querySelectorAll('.admin-editable, .page-section p, .page-section h1, .page-section h2, .page-section h3, .page-section h4, .page-section li, .page-section span');
+        editableTexts.forEach(el => {
+            if(el.tagName === 'I' || el.tagName === 'BUTTON' || el.closest('button')) return;
+            if (isAdmin) {
+                el.setAttribute('contenteditable', 'true');
+            } else {
+                el.removeAttribute('contenteditable');
+            }
+        });
 
-        var treeTable = new google.visualization.DataTable(); treeTable.addColumn('string','Industry'); treeTable.addColumn('string','Parent'); treeTable.addColumn('number','Size'); treeTable.addColumn('number','Color');
-        treeTable.addRow(['Industries', null, 0, 0]);
-        for (let i in indData) treeTable.addRow([i, 'Industries', indData[i], indData[i]]);
-        new google.visualization.TreeMap(treeC).draw(treeTable, { minColor:'#ffbaba', midColor:'#E35336', maxColor:'#991b1b', headerHeight:0, fontColor:'#fff', showScale:false });
-    } catch(e) { console.error(e); }
-}
-
-// Form Handlers
-document.addEventListener('input', e => { if(e.target.classList.contains('format-number')) e.target.value = e.target.value.replace(/\D/g,"") ? parseInt(e.target.value.replace(/\D/g,"")).toLocaleString('en-US') : ""; });
-
-async function submitRFP(e) {
-    e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); const orig = btn.innerHTML; btn.innerHTML = 'Sending...'; btn.disabled = true;
-    try {
-        const d = Object.fromEntries(new FormData(e.target));
-        ['revenue','transactions','bank_accounts','employees'].forEach(k => { if(d[k]) d[k] = d[k].replace(/,/g,'') });
-        if(d.currency && d.revenue) d.revenue = d.currency + ' ' + d.revenue;
-        await fetch("https://script.google.com/macros/s/AKfycbzjlPU4qSXTuRY3_NX5e31vl_wER6SPfVMSyEO1HhSECa3sFR3tgqpGnLOlbjdWgMqrBg/exec", {method:'POST', body:JSON.stringify(d)});
-        Swal.fire({icon:'success', title:'Sent!', text:'Request received.', confirmButtonColor:'#E35336'}).then(()=> { e.target.reset(); showPage('home'); });
-    } catch (err) { Swal.fire({icon:'error', title:'Error', text:'Failed to send.', confirmButtonColor:'#E35336'}); }
-    finally { btn.innerHTML = orig; btn.disabled = false; }
-}
-
-async function handleFormSubmit(e) {
-    e.preventDefault(); const btn = e.target.querySelector('button[type="submit"]'); const orig = btn.innerHTML; btn.innerHTML = 'Sending...'; btn.disabled = true;
-    try {
-        const file = document.getElementById('fileUpload').files[0];
-        const d = Object.fromEntries(new FormData(e.target));
-        if(file) {
-            const reader = new FileReader();
-            reader.onload = async () => {
-                d.file = { name: file.name, type: file.type, data: reader.result.split(',')[1] };
-                await fetch("https://script.google.com/macros/s/AKfycbyiPKwx9kNIoIehO4SKzhsGu2MzSHBeaKasXCUb49EiQzgt4EYlXOuIyEEvHkfLOaed/exec", {method:'POST', body:JSON.stringify(d)});
-                Swal.fire({icon:'success', title:'Sent!', confirmButtonColor:'#E35336'}).then(()=>{ e.target.reset(); showPage('home'); btn.innerHTML=orig; btn.disabled=false; });
-            };
-            reader.readAsDataURL(file);
+        // Change Admin Lock Icon State
+        const lockIcon = document.getElementById('admin-lock-icon');
+        if (isAdmin) {
+            if(lockIcon) {
+                lockIcon.classList.remove('fa-lock');
+                lockIcon.classList.add('fa-unlock');
+                lockIcon.classList.add('text-brand-primary');
+            }
+        } else {
+            if(lockIcon) {
+                lockIcon.classList.remove('fa-unlock');
+                lockIcon.classList.add('fa-lock');
+                lockIcon.classList.remove('text-brand-primary');
+            }
         }
-    } catch(err) { Swal.fire({icon:'error', title:'Error', confirmButtonColor:'#E35336'}); btn.innerHTML=orig; btn.disabled=false; }
-}
+    }
+    
+    function openUploadModal(type) {
+        let folderLink = '';
+        if (type === 'research') folderLink = 'https://drive.google.com/open?id=17-TA9jdphHh4fvvMUqNHTSkH5EWDTDRJ&usp=drive_copy';
+        if (type === 'news') folderLink = 'https://drive.google.com/open?id=1yNmoZI5OITqBjiBMmt5idjr_js8-sNhD&usp=drive_copy';
+        if (type === 'activities') folderLink = 'https://drive.google.com/open?id=1J0wSTN-SGYEzvXsmnLU0lxXHyIcRiy3y&usp=drive_copy';
+
+        Swal.fire({
+            title: `Upload ${type.charAt(0).toUpperCase() + type.slice(1)}`,
+            html: `
+                <p class="text-sm text-gray-600 mb-4">Because this is a static Blogger website, direct file uploads require an external Google Apps Script backend.</p>
+                <p class="text-sm text-gray-800 mb-4">To upload securely to your Database, please drop your files directly into your designated Google Drive folder:</p>
+                <a href="${folderLink}" target="_blank" class="block w-full bg-brand-primary text-white font-bold py-2 rounded mb-4 hover:bg-black transition">
+                    <i class="fab fa-google-drive mr-2"></i> Open Drive Folder
+                </a>
+            `,
+            showConfirmButton: false,
+            showCloseButton: true
+        });
+    }
+
+    // --- GOOGLE CHARTS (MAP & TREEMAP) INITIALIZATION ---
+    if (typeof google !== 'undefined') {
+        google.charts.load('current', {
+            'packages':['geochart', 'treemap'],
+        });
+        google.charts.setOnLoadCallback(fetchAndDrawMap);
+    }
+    
+    function mapProvinsiToISO(provName) {
+        if(!provName) return null;
+        provName = provName.toString().toLowerCase();
+        if (provName.includes("aceh")) return "ID-AC";
+        if (provName.includes("bali")) return "ID-BA";
+        if (provName.includes("bangka") || provName.includes("belitung")) return "ID-BB";
+        if (provName.includes("banten")) return "ID-BT";
+        if (provName.includes("bengkulu")) return "ID-BE";
+        if (provName.includes("jakarta") || provName.includes("dki")) return "ID-JK";
+        if (provName.includes("jambi")) return "ID-JA";
+        if (provName.includes("jawa barat") || provName.includes("jabar")) return "ID-JB";
+        if (provName.includes("jawa tengah") || provName.includes("jateng")) return "ID-JT";
+        if (provName.includes("jawa timur") || provName.includes("jatim")) return "ID-JI";
+        if (provName.includes("yogyakarta") || provName.includes("diy") || provName.includes("jogja")) return "ID-YO";
+        if (provName.includes("kalimantan barat") || provName.includes("kalbar")) return "ID-KB";
+        if (provName.includes("kalimantan selatan") || provName.includes("kalsel")) return "ID-KS";
+        if (provName.includes("kalimantan tengah") || provName.includes("kalteng")) return "ID-KT";
+        if (provName.includes("kalimantan timur") || provName.includes("kaltim")) return "ID-KI";
+        if (provName.includes("kalimantan utara") || provName.includes("kaltara")) return "ID-KU";
+        if (provName.includes("kepulauan riau") || provName.includes("kepri")) return "ID-KR";
+        if (provName.includes("riau")) return "ID-RI";
+        if (provName.includes("lampung")) return "ID-LA";
+        if (provName.includes("maluku utara")) return "ID-MU";
+        if (provName.includes("maluku")) return "ID-MA";
+        if (provName.includes("nusa tenggara barat") || provName.includes("ntb")) return "ID-NB";
+        if (provName.includes("nusa tenggara timur") || provName.includes("ntt")) return "ID-NT";
+        if (provName.includes("papua barat daya")) return "ID-PD";
+        if (provName.includes("papua barat")) return "ID-PB";
+        if (provName.includes("papua pegunungan")) return "ID-PE";
+        if (provName.includes("papua selatan")) return "ID-PS";
+        if (provName.includes("papua tengah")) return "ID-PT";
+        if (provName.includes("papua")) return "ID-PA";
+        if (provName.includes("sulawesi barat") || provName.includes("sulbar")) return "ID-SR";
+        if (provName.includes("sulawesi selatan") || provName.includes("sulsel")) return "ID-SN";
+        if (provName.includes("sulawesi tengah") || provName.includes("sulteng")) return "ID-ST";
+        if (provName.includes("sulawesi tenggara") || provName.includes("sultra")) return "ID-SG";
+        if (provName.includes("sulawesi utara") || provName.includes("sulut")) return "ID-SA";
+        if (provName.includes("gorontalo")) return "ID-GO";
+        if (provName.includes("sumatera barat") || provName.includes("sumbar")) return "ID-SB";
+        if (provName.includes("sumatera selatan") || provName.includes("sumsel")) return "ID-SS";
+        if (provName.includes("sumatera utara") || provName.includes("sumut")) return "ID-SU";
+        return null;
+    }
+    
+    function translateIndustry(indNameRaw) {
+        if(!indNameRaw) return 'Other Industries';
+        let lower = indNameRaw.toString().toLowerCase().trim();
+        if(lower === 'regulator keuangan' || lower === 'financial regulator') return 'Financial Regulators';
+        if(lower === 'pendidikan' || lower === 'education') return 'Education';
+        if(lower === 'asuransi' || lower === 'insurance') return 'Insurance';
+        if(lower === 'asuransi bumn' || lower === 'state-owned enterprise insurance') return 'SOE Insurance';
+        if(lower === 'perdagangan/it' || lower === 'trade/it') return 'Trade & IT';
+        if(lower === 'manufaktur' || lower === 'manufacturing') return 'Manufacturing';
+        if(lower === 'perbankan' || lower === 'banking') return 'Banking';
+        if(lower === 'alat berat' || lower === 'heavy equipment') return 'Heavy Equipment';
+        if(lower === 'distributor pompa' || lower === 'pump distributor') return 'Pump Distributor';
+        if(lower === 'lembaga zakat' || lower === 'zakat institution') return 'Zakat & Charity';
+        if(lower === 'distributor cat' || lower === 'paint distributor') return 'Paint Distributor';
+        if(lower === 'general supplier') return 'General Supplier';
+        if(lower === 'infrastruktur/anak bumn' || lower === 'infrastructure/state-owned enterprises' || lower === 'infrastruktur bumn' || lower === 'state-owned enterprise infrastructure') return 'Infrastructure & SOE';
+        if(lower === 'retail') return 'Retail';
+        if(lower === 'f&b / hospitality' || lower === 'food and beverage' || lower === 'f&b' || lower === 'fnb' || lower === 'restaurant' || lower === 'hotel / villa') return 'Food & Beverage';
+        if(lower === 'services / procurement & construction' || lower === 'construction services / hotel / fnb holding') return 'Construction & Procurement';
+        if(lower === 'creative services') return 'Creative Services';
+        if(lower === 'education / ngo' || lower === 'ngo' || lower === 'non-governmental organizations' || lower === 'lembaga non pemerintah') return 'NGO & Foundations';
+        if(lower === 'developer properti' || lower === 'property developer') return 'Property Developer';
+        if(lower === 'company jasa' || lower === 'service company') return 'Service Providers';
+        if(lower === 'pemerintahan / pajak' || lower === 'government / tax') return 'Government & Tax';
+        if(lower === 'konsultan keuangan & akuntansi' || lower === 'financial & accounting consultant') return 'Financial Consultants';
+        if(lower === 'entertainment') return 'Entertainment';
+        if(lower === 'fashion') return 'Fashion';
+        if(lower === 'ecommerce') return 'E-commerce';
+        if(lower === 'machine shop') return 'Machine Shop';
+        if(lower === 'commodity') return 'Commodities';
+        if(lower === 'konveksi' || lower === 'garmen' || lower === 'garments' || lower === 'apparel manufacturing') return 'Garment & Apparel';
+        if(lower === 'bumdes' || lower === 'village-owned enterprises') return 'Village Enterprises (BUMDES)';
+        if(lower === 'mining' || lower === 'pertambangan') return 'Mining & Resources';
+        if(lower === 'gift') return 'Gift & Novelty';
+        if(lower === 'koperasi' || lower === 'cooperative') return 'Cooperatives';
+        if(lower === 'klinik kesehatan' || lower === 'health clinic') return 'Healthcare Clinics';
+        if(lower === 'holding' || lower === 'holding jasa konstruksi / hotel / fnb') return 'Holding Companies';
+        if(lower === 'agency') return 'Agencies';
+        if(lower === 'farm') return 'Agriculture & Farming';
+        if(lower === 'kantor akuntan publik' || lower === 'public accounting firm') return 'Public Accounting Firms';
+        if(lower === 'teknologi informasi' || lower === 'information technology') return 'Information Technology';
+        if(lower === 'peralatan medis' || lower === 'medical equipment') return 'Medical Equipment';
+        return indNameRaw.toString().replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    async function fetchAndDrawMap() {
+        const mapContainer = document.getElementById('regions_div');
+        const treeContainer = document.getElementById('industry_treemap');
+        if (!mapContainer || !treeContainer) return;
+        
+        const url = 'https://docs.google.com/spreadsheets/d/1LyOMXw6yn2AI_5s6OnUDiYZ-CYAkyyS9Rt0yPXpa1QA/gviz/tq?tqx=out:json&sheet=db';
+        try {
+            const res = await fetch(url);
+            const text = await res.text();
+            
+            const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
+            const data = JSON.parse(jsonString);
+
+            const provIdx = 2; 
+            const indIdx = 4; 
+
+            let totalCompanies = 0;
+            let provData = {};
+            let industryData = {};
+
+            data.table.rows.forEach(row => {
+                if(!row || !row.c) return;
+                
+                let provCell = row.c[provIdx];
+                if (provCell && provCell.v) {
+                    totalCompanies++;
+                    let provName = provCell.v.toString().trim();
+                    let isoCode = mapProvinsiToISO(provName);
+                    if(isoCode) {
+                        provData[isoCode] = (provData[isoCode] || 0) + 1;
+                    }
+                    
+                    let indCell = row.c[indIdx];
+                    let indNameRaw = (indCell && indCell.v) ? indCell.v.toString().trim() : '';
+                    if (indNameRaw !== '') {
+                        let indNameEnglish = translateIndustry(indNameRaw);
+                        industryData[indNameEnglish] = (industryData[indNameEnglish] || 0) + 1;
+                    }
+                }
+            });
+
+            const totalEl = document.getElementById('stat-total-companies');
+            if(totalEl) totalEl.innerText = totalCompanies;
+            
+            var mapTable = new google.visualization.DataTable();
+            mapTable.addColumn('string', 'Province');
+            mapTable.addColumn('number', 'Clients');
+
+            for (let iso in provData) {
+                mapTable.addRow([iso, provData[iso]]);
+            }
+
+            var mapOptions = {
+                region: 'ID',
+                resolution: 'provinces',
+                colorAxis: {colors: ['#fca5a5', '#E35336']},
+                backgroundColor: 'transparent',
+                datalessRegionColor: '#e5e7eb',
+                defaultColor: '#e5e7eb',
+                tooltip: { trigger: 'focus' },
+                legend: 'none'
+            };
+
+            var mapChart = new google.visualization.GeoChart(mapContainer);
+            mapChart.draw(mapTable, mapOptions);
+            
+            var treeTable = new google.visualization.DataTable();
+            treeTable.addColumn('string', 'Industry');
+            treeTable.addColumn('string', 'Parent');
+            treeTable.addColumn('number', 'Size');
+            treeTable.addColumn('number', 'Color');
+
+            treeTable.addRow(['Industries', null, 0, 0]);
+
+            for (let ind in industryData) {
+                treeTable.addRow([ind, 'Industries', industryData[ind], industryData[ind]]);
+            }
+
+            var treeOptions = {
+                minColor: '#ffbaba',
+                midColor: '#E35336',
+                maxColor: '#991b1b',
+                headerHeight: 0,
+                fontColor: '#ffffff',
+                showScale: false,
+                generateTooltip: showFullTooltip
+            };
+            
+            var treeChart = new google.visualization.TreeMap(treeContainer);
+            treeChart.draw(treeTable, treeOptions);
+            
+            function showFullTooltip(row, size, value) {
+                return '<div style="background:#fff;padding:10px;border:1px solid #e5e7eb;border-radius:4px;box-shadow:0 4px 6px -1px rgba(0, 0, 0, 0.1);">' +
+                       '<span style="font-family:Roboto;font-weight:bold;color:#000;">' + treeTable.getValue(row, 0) + '</span><br>' +
+                       '<span style="font-family:Roboto;color:#6b7280;font-size:12px;">Total Clients: ' + size + '</span></div>';
+            }
+
+        } catch(e) {
+            console.error('Error fetching map data:', e);
+            mapContainer.innerHTML = '<div class="flex h-full items-center justify-center p-4 text-center text-red-500 font-medium border border-red-200 rounded bg-red-50">Data Failed to Load.<br/>Ensure Google Sheet is set to "Anyone with the link can view".</div>';
+            treeContainer.innerHTML = '<div class="flex h-full items-center justify-center p-4 text-center text-red-500 font-medium">Failed to load industry data.</div>';
+        }
+    }
+
+    function showPartnerProfile(id) {
+        const data = partnerInfoData[id];
+        if (!data) return;
+
+        document.getElementById('pd-img').src = data.img;
+        document.getElementById('pd-name').innerText = data.name;
+        document.getElementById('pd-role').innerText = data.role;
+        document.getElementById('pd-content').innerHTML = data.html;
+
+        showPage('partner-detail-view', true, id);
+        
+        if(isAdmin) toggleAdminUI();
+    }
+
+    function generateRfpQrCode() {
+        const url = window.location.origin + window.location.pathname + '?page=rfp-view';
+        const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300\u0026data=' + encodeURIComponent(url);
+        
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                title: 'RFP QR Code',
+                text: 'Scan this code to easily open the Request for Proposal form on your mobile device.',
+                imageUrl: qrUrl,
+                imageWidth: 250,
+                imageHeight: 250,
+                imageAlt: 'QR Code',
+                confirmButtonText: 'Close',
+                confirmButtonColor: '#E35336',
+                background: '#FFFFFF',
+                color: '#000000'
+            });
+        }
+    }
+
+    window.addEventListener('load', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get('page');
+        const partnerId = urlParams.get('id');
+
+        if (page === 'partner-detail-view' && partnerId) {
+            showPartnerProfile(partnerId);
+        } else if (page) {
+            showPage(page, false);
+        } else {
+            if(document.getElementById('home-view')) {
+                 document.getElementById('home-view').classList.remove('hidden');
+            }
+        }
+        
+        if (!page || page === 'home') {
+            if (typeof google !== 'undefined' && google.visualization) {
+                setTimeout(fetchAndDrawMap, 100);
+            }
+        }
+        
+        toggleAdminUI();
+    });
+
+    window.addEventListener('popstate', function(event) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get('page');
+        const partnerId = urlParams.get('id');
+        
+        if (page === 'partner-detail-view' && partnerId) {
+            showPartnerProfile(partnerId);
+        } else {
+            showPage(page || 'home', false);
+        }
+    });
+    
+    function showPage(pageId, addToHistory = true, partnerId = null) {
+        const allPages = [
+            'home-view', 
+            'company-profile',
+            'partner-detail-view',
+            'career-view', 
+            'rfp-view',   
+            'service-pembukuan',
+            'service-pajak',
+            'service-internal-control', 
+            'service-manajemen-keuangan',
+            'industry-fnb',
+            'industry-kecantikan',
+            'industry-textile',
+            'industry-garmen',
+            'industry-konveksi',
+            'industry-ngo',
+            'industry-financial',
+            'industry-education-ngo',
+            'industry-tech-ecommerce',
+            'industry-manufacturing',
+            'industry-real-estate',
+            'industry-retail',
+            'industry-services',
+            'industry-mining',
+            'industry-healthcare',
+            'industry-holding',
+            'industry-agriculture',
+            'industry-entertainment',
+            'research-view',
+            'news-view',
+            'activities-view'
+        ];
+
+        let targetId = pageId;
+        if (pageId === 'home') targetId = 'home-view';
+        if (pageId === 'career') targetId = 'career-view';
+        if (pageId === 'rfp') targetId = 'rfp-view'; 
+
+        if (!allPages.includes(targetId) && targetId !== 'home-view') {
+            targetId = 'home-view';
+        }
+
+        allPages.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('hidden');
+        });
+
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+            targetEl.classList.remove('hidden');
+        }
+        
+        if(targetId === 'home-view') {
+            if (typeof google !== 'undefined' && google.visualization) {
+                setTimeout(fetchAndDrawMap, 100);
+            }
+        }
+        
+        window.scrollTo(0,0);
+
+        if (addToHistory) {
+            const url = new URL(window.location);
+            
+            if (targetId === 'home-view') {
+                url.searchParams.delete('page');
+                url.searchParams.delete('id');
+            } else {
+                url.searchParams.set('page', pageId);
+                if (partnerId) {
+                    url.searchParams.set('id', partnerId);
+                } else {
+                    url.searchParams.delete('id');
+                }
+            }
+            
+            if (url.href !== window.location.href) {
+                window.history.pushState({ page: pageId, id: partnerId }, '', url);
+            }
+        }
+    }
+
+    function generateCurrentUrlQrCode() {
+        const url = window.location.href;
+        const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300\u0026data=' + encodeURIComponent(url);
+        
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                title: 'Profile QR Code',
+                text: 'Scan this barcode to share or open the partner profile on another device.',
+                imageUrl: qrUrl,
+                imageWidth: 250,
+                imageHeight: 250,
+                imageAlt: 'Profile QR Code',
+                confirmButtonText: 'Close',
+                confirmButtonColor: '#E35336',
+                background: '#FFFFFF',
+                color: '#000000'
+            });
+        }
+    }
+
+    var fileUploadEl = document.getElementById('fileUpload');
+    if (fileUploadEl) {
+        fileUploadEl.addEventListener('change', function(e) {
+            const list = document.getElementById('fileList');
+            list.innerHTML = '';
+            for (let i = 0; i < this.files.length; i++) {
+                list.innerHTML += '<div><i class="fas fa-file-pdf mr-2"></i>' + this.files[i].name + '</div>';
+            }
+        });
+    }
+
+    // LISTENER FOR THOUSANDS SEPARATOR COMMA
+    document.addEventListener('input', function (e) {
+        if (e.target.classList.contains('format-number')) {
+            let value = e.target.value.replace(/\D/g, "");
+            if(value !== "") {
+                e.target.value = parseInt(value, 10).toLocaleString('en-US');
+            } else {
+                e.target.value = "";
+            }
+        }
+    });
+
+    async function handleFormSubmit(e) {
+        e.preventDefault();
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyiPKwx9kNIoIehO4SKzhsGu2MzSHBeaKasXCUb49EiQzgt4EYlXOuIyEEvHkfLOaed/exec"; 
+        const btn = e.target.querySelector('button[type="submit"]');
+        const originalContent = btn.innerHTML; 
+        btn.innerHTML = '<span class="spinner"></span> Sending...';
+        btn.disabled = true;
+        btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+        const restoreButton = () => {
+            btn.innerHTML = originalContent;
+            btn.disabled = false;
+            btn.classList.remove('opacity-75', 'cursor-not-allowed');
+        };
+
+        try {
+            const form = document.getElementById('recruitmentForm');
+            const formData = new FormData(form);
+            const fileInput = document.getElementById('fileUpload');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = async function() {
+                try {
+                    const fileData = {
+                        name: file.name,
+                        type: file.type,
+                        data: reader.result.split(',')[1] 
+                    };
+                    const dataObj = Object.fromEntries(formData.entries());
+                    dataObj.file = fileData; 
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(dataObj)
+                    });
+                    if (response.ok) {
+                         if (typeof Swal !== 'undefined') {
+                             Swal.fire({
+                                icon: 'success',
+                                title: 'Sent!',
+                                text: 'Your application has been successfully submitted.',
+                                confirmButtonColor: '#E35336'
+                            }).then(() => {
+                                form.reset();
+                                document.getElementById('fileList').innerHTML = '';
+                                showPage('home');
+                                restoreButton();
+                            });
+                         }
+                    } else {
+                        throw new Error('Failed to send');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({ icon: 'error', title: 'Failed', text: 'An error occurred while sending the data. Please try again.', confirmButtonColor: '#E35336' });
+                    }
+                    restoreButton();
+                }
+            };
+            
+            reader.onerror = function() {
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({ icon: 'error', title: 'Failed', text: 'Failed to read the file.', confirmButtonColor: '#E35336' });
+                }
+                restoreButton();
+            };
+            
+            if(file) {
+                reader.readAsDataURL(file);
+            } else {
+                restoreButton();
+            }
+        } catch (error) {
+            console.error(error);
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'A system error occurred. Please try again.',
+                    confirmButtonColor: '#E35336'
+                });
+            }
+            restoreButton();
+        } 
+    }
+
+    async function submitRFP(e) {
+        e.preventDefault();
+        
+        const RFP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzjlPU4qSXTuRY3_NX5e31vl_wER6SPfVMSyEO1HhSECa3sFR3tgqpGnLOlbjdWgMqrBg/exec"; 
+        
+        const btn = e.target.querySelector('button[type="submit"]');
+        const originalContent = btn.innerHTML; 
+        
+        btn.innerHTML = '<span class="spinner"></span> Sending...';
+        btn.disabled = true;
+        btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+        try {
+            const form = document.getElementById('rfpForm');
+            const formData = new FormData(form);
+            const dataObj = Object.fromEntries(formData.entries());
+
+            // Remove commas before sending to database
+            if (dataObj.revenue) dataObj.revenue = dataObj.revenue.replace(/,/g, '');
+            if (dataObj.transactions) dataObj.transactions = dataObj.transactions.replace(/,/g, '');
+            if (dataObj.bank_accounts) dataObj.bank_accounts = dataObj.bank_accounts.replace(/,/g, '');
+            if (dataObj.employees) dataObj.employees = dataObj.employees.replace(/,/g, '');
+
+            // Merge currency and revenue
+            if (dataObj.currency && dataObj.revenue) {
+                dataObj.revenue = dataObj.currency + ' ' + dataObj.revenue;
+            }
+
+            const response = await fetch(RFP_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(dataObj)
+            });
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Proposal Request Sent!',
+                    text: 'Thank you for reaching out. Our team will review your requirements and contact you shortly.',
+                    confirmButtonColor: '#E35336'
+                }).then(() => {
+                    form.reset();
+                    showPage('home');
+                });
+            }
+
+        } catch (err) {
+            console.error(err);
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({ 
+                    icon: 'error', 
+                    title: 'System Notice', 
+                    text: 'An error occurred while sending the request. Please try again or contact us via WhatsApp.', 
+                    confirmButtonColor: '#E35336' 
+                });
+            }
+        } finally {
+            btn.innerHTML = originalContent;
+            btn.disabled = false;
+            btn.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+    }
+    
+    const partnerInfoData = {
+        "anang": {
+            name: "Dr. Anang Witjaksono, SSos., SE., MM., CIP., AMII., ACII., CRMP., PIA., CRGP., CPT., QIA., Ak., CA.",
+            role: "Partner – Finance, Audit, Risk & Tax Advisory",
+            img: "https://lh3.googleusercontent.com/d/1zQ1FvtPfrQUWJABE40pSBVE4Wzi3M3pT",
+            html: "<h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>About Him</h3><p class='text-black leading-relaxed mb-4'>Dr. Anang Witjaksono is an authoritative figure in Indonesia's Finance, Accounting, and Risk Management industries, with <strong>extraordinary capabilities specifically in the insurance sector and insurance audit</strong>. Holding a Doctoral degree (Dr.) in Business Administration with a focus on Risk Management from the University of Indonesia, he brings a profound academic insight tested by decades of experience leading the financial sector at the national level.</p><p class='text-black leading-relaxed mb-8'>His professional career encompasses various executive roles in major institutions. He is highly distinguished for his past role as the <strong>Chief Audit Executive at PT Jasaraharja Putera (2021)</strong>, where he directed the Finance, Internal Audit (SPI), and Risk Management divisions. Currently, he actively serves as a <strong>Fit and Proper Assessor for the Financial Services Authority (OJK) (2026 - present)</strong> and as a <strong>Faculty Member at the Faculty of Administrative Science (FIA), University of Indonesia (2023 - present)</strong>.</p><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Core Competencies</h3><ul class='service-list text-black space-y-3 mb-8'><li><strong>Insurance &amp; Insurance Audit:</strong> Extraordinary capability in general insurance, risk-based capital (RBC), and comprehensive insurance audits, backed by CIP, AMII, and ACII international certifications.</li><li><strong>Corporate Finance &amp; Accounting:</strong> Licensed accountant (Ak., CA) with expertise in financial planning, Asset Liability Management, and financial accounting standards compliance.</li><li><strong>Audit &amp; Fraud Investigation:</strong> QIA and PIA certified, possessing deep expertise in Internal Audit, Basic Forensic Audit, and Fraud Loss Calculation (OJK Certified).</li><li><strong>Risk Management &amp; Governance:</strong> CRMP and CRGP certified, expert in corporate risk mitigation, GCG (Good Corporate Governance) implementation, and business process design.</li><li><strong>Tax Compliance:</strong> Holds Applied Tax Brevet A, B, and C qualifications, providing precise and tactical tax advisory.</li></ul><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Career Highlights</h3><ul class='list-disc list-outside text-black space-y-2 mb-8 ml-5'><li><strong>Assessor, Fit and Proper</strong> – Otoritas Jasa Keuangan (2026 - present)</li><li><strong>Faculty Member</strong> – FIA University of Indonesia (2023 - present)</li><li><strong>Chief Audit Executive</strong> – PT Jasaraharja Putera (2021)</li><li>Senior Manager of Finance – PT Jasa Raharja (Persero) (2019 - 2021)</li></ul><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Education &amp; Credentials</h3><ul class='list-disc list-outside text-black space-y-2 ml-5'><li>Ph.D. in Business Administration (Risk Management) – Universitas Indonesia</li><li>Master of Management (Finance &amp; Banking) – Universitas Indonesia</li><li>Bachelor of Accounting – Universitas Islam Bandung</li><li>Bachelor of Communications – Universitas Padjadjaran</li></ul>"
+        },
+        "umam": {
+            name: "M. Khaerul Umam, S.Ak., M.E., Ak., CA., BKP.",
+            role: "Partner – Tax & Business Advisory",
+            img: "https://lh3.googleusercontent.com/d/1C8Z_yoJWGNx5OXzdVXYKrsftoAA0Fkzb",
+            html: "<h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>About Him</h3><p class='text-black leading-relaxed mb-8'>M. Khaerul Umam represents the modern generation of financial professionals, combining academic acumen, certified technical expertise, and business agility. With a multi-disciplinary educational background—earning a Master of Economics from Universitas Mulawarman and an Accounting Profession degree from Universitas Padjadjaran—he views clients' financial issues not only from a compliance perspective but also through the lens of macroeconomic prospects and business resilience. His career journey reflects a strong work ethic and deep understanding of various industries. From his experience in heavy industry distributors and retail, philanthropic institutions, to founding and leading his own companies, he deeply understands the real pain points faced by business practitioners daily in managing bookkeeping, cash flow, and taxation.</p><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Core Competencies</h3><ul class='service-list text-black space-y-3 mb-8'><li><strong>Tax Compliance & Strategy:</strong> Certified Tax Consultant (BKP - Ministry of Finance RI) and graduate of Brevet A, B, & C. Expert in designing efficient tax planning while ensuring full compliance with prevailing regulations.</li><li><strong>Corporate Accounting:</strong> As a Chartered Accountant (CA) and Certified Tax Technician (CTT), he possesses high accuracy in preparing commercial and fiscal financial statements for various business scales.</li><li><strong>Business Advisory & Entrepreneurship:</strong> Armed with hands-on experience as a Director (General Supplier) and applied Economics knowledge (M.E.), he provides advisory that aligns with clients' expansion and sustainability goals.</li><li><strong>Training & Capacity Building:</strong> Holding Master Trainer and Master Instructor certifications from the National Professional Certification Board (BNSP), and active as a Tax Accounting Lecturer, making him highly reliable in educating clients' internal teams on accounting and tax best practices.</li></ul><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Education & Professional Licenses</h3><ul class='list-disc list-outside text-black space-y-2 ml-5'><li>Accounting Profession (Ak.) – Universitas Padjadjaran</li><li>Master of Economics – Universitas Mulawarman</li><li>Bachelor of Accounting – STIE Madani Balikpapan</li><li>BKP (Certified Tax Consultant) – Ministry of Finance RI</li><li>CA (Chartered Accountant) – Indonesian Institute of Accountants</li><li>CTT (Certified Tax Technician) – Association of Indonesian Tax Technicians</li><li>Master Instructor – National Professional Certification Board (BNSP)</li></ul>"
+        },
+        "vitaloka": {
+            name: "Vitaloka Kemaladewi Hutagalung, S.E., Ak., CA.",
+            role: "Partner – Corporate Finance, Risk Management & Tax Dispute",
+            img: "https://lh3.googleusercontent.com/d/1buB6l5TI1JEYUNprywBQ2BfJMZdLV18g",
+            html: "<h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>About Her</h3><p class='text-black leading-relaxed mb-8'>Vitaloka Kemaladewi Hutagalung represents a rare blend of a reliable corporate manager and a dynamic entrepreneur. Her educational journey at Universitas Padjadjaran (Diploma & Profession) and Universitas Widyatama (Bachelor's & Master's) established a highly solid technical accounting foundation. This is widely recognized through her Chartered Accountant (CA) and ASEAN Chartered Professional Accountant (ASEAN CPA) licenses, validating her competencies at the regional level. In her professional career, Vitaloka has proven her ability to manage the financial complexities of large entities, notably her role as Accounting, Finance, and Risk Management Manager at PT Jasa Tirta Luhur (a State-Owned Enterprise Subsidiary). Beyond the corporate realm, her leadership has also been tested as a Director in several service and construction companies, and as a Supervisory Board member in educational foundations.</p><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Core Competencies</h3><ul class='service-list text-black space-y-3 mb-8'><li><strong>Corporate Financial Management:</strong> Expert in Financial Statement preparation, Financial Statement Analysis, Cash Flow & Treasury Management, and Budgeting & Forecasting to ensure optimal corporate liquidity and profitability.</li><li><strong>Risk Management & Internal Control (ICOFR):</strong> Designing and implementing robust internal control systems and conducting risk assessments to protect client assets and business continuity.</li><li><strong>Taxation & Tax Dispute Resolution:</strong> Armed with a license as a Tax Court Attorney, Vitaloka is not only proficient in regular Tax Compliance but also has the authority and expertise to assist and represent clients in complex tax dispute resolutions at the court level.</li><li><strong>Audit Coordination:</strong> Extensive experience in managing management reporting cycles and providing full Audit Support during external audit processes.</li></ul><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Education & Professional Licenses</h3><ul class='list-disc list-outside text-black space-y-2 ml-5'><li>Master of Accounting – Universitas Widyatama (On-Going)</li><li>Accounting Profession (Ak.) – Universitas Padjadjaran</li><li>Bachelor of Accounting – Universitas Widyatama</li><li>Diploma in Accounting – Universitas Padjadjaran</li><li>ASEAN CPA – ASEAN Chartered Professional Accountant</li><li>CA (Chartered Accountant) – Indonesian Institute of Accountants</li><li>Licensed Tax Court Attorney</li><li>Practicing Accountant (AB)</li></ul>"
+        },
+        "seni": {
+            name: "Seni Nafisah Maullina, S.E., Ak., CA.",
+            role: "Partner – Financial Accounting & Business Advisory",
+            img: "https://lh3.googleusercontent.com/d/1NvCQy7xSGijgGtT-8g7-u9BouGoqIBAs",
+            html: "<h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>About Her</h3><p class='text-black leading-relaxed mb-8'>Seni Nafisah Maullina is a highly dedicated accounting practitioner with a solid track record in leading the transformation of corporate finance functions across various industry sectors, particularly retail and manufacturing. Earning a Bachelor of Economics and an Accounting Profession (Ak.) degree, she complements her academic qualifications with high-level professional recognition as a Chartered Accountant (CA) from the Indonesian Institute of Accountants (IAI). Before taking on a strategic role as a Partner at STARLINGS, Seni built her flight hours and expertise through experience in various public accounting firms and corporations. Her meticulous, analytical, and detail-oriented approach makes her a trusted partner for companies requiring financial governance restructuring, budget efficiency, and reporting transparency.</p><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Core Competencies</h3><ul class='service-list text-black space-y-3 mb-8'><li><strong>Financial Accounting & Reporting:</strong> Expert in designing, structuring, and preparing comprehensive Financial Statements that strictly adhere to the latest Financial Accounting Standards (SAK), providing full visibility to management and stakeholders.</li><li><strong>Business Process Improvement:</strong> Analyzing and refining financial Standard Operating Procedures (SOPs) to identify bottlenecks, minimize inefficiencies, and prevent potential budget leakages (cost control).</li><li><strong>Audit Readiness & Corporate Tax Support:</strong> Providing full support in fiscal reconciliation and structured document preparation to ensure the company is always ready to face external audit processes without major findings.</li><li><strong>Management Advisory:</strong> Converting raw bookkeeping data into easily understandable analytical management reports, providing strategic guidance for C-Level executives in business expansion.</li></ul><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Education & Professional Licenses</h3><ul class='list-disc list-outside text-black space-y-2 ml-5'><li>Accounting Profession (Ak.)</li><li>Bachelor of Economics (S.E.)</li><li>CA (Chartered Accountant) – Indonesian Institute of Accountants (IAI)</li></ul>"
+        },
+        "wulan": {
+            name: "Wulan Nurani, S.Ak., Ak., CA.",
+            role: "Partner – Multi-Industry Tax & Accounting Advisory",
+            img: "https://lh3.googleusercontent.com/d/1FBooMEtjZ4YolOC5aocuUdzR0e_2staz",
+            html: "<h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>About Her</h3><p class='text-black leading-relaxed mb-8'>Wulan Nurani represents the profile of a modern, agile accountant with high adaptability to the complexities of various business models. Her technical foundation was built through a comprehensive academic trajectory, starting from a Bachelor of Accounting at Universitas MH. Thamrin, Accounting Profession Education (PPAk), to currently pursuing a Master of Accounting (M.Ak) at Universitas Padjadjaran. Wulan's professional career is marked by her ability to manage leadership positions (Leader Accounting & Tax) in five different companies simultaneously, covering high-end property developers, tourism management, and restaurant chains. Previously, she also served as Finance, Accounting & Tax Supervisor at a construction services holding company, and gained strategic experience at a non-governmental organization (Indonesian Sharia Insurance Association). This cross-sectoral understanding allows her to design tailor-made financial and tax strategies matching the unique characteristics of each client's industry.</p><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Core Competencies</h3><ul class='service-list text-black space-y-3 mb-8'><li><strong>Multi-Entity & Holding Company Finance:</strong> Highly experienced in preparing consolidated financial statements, designing intercompany transaction flows, and maintaining group compliance for diverse business lines.</li><li><strong>Tax Compliance & Strategy (Brevet A & B):</strong> As a certified tax expert who also contributed as a Tax Volunteer for KPP Pratama, Wulan is proficient in structuring tax risk mitigation, fiscal burden efficiency, and leading corporate tax compliance in property, hospitality, and construction sectors known for complex tax regulations.</li><li><strong>Cross-Industry Accounting Frameworks:</strong> Possesses deep technical expertise in applying specific accounting standards for Property Developers (Revenue Recognition), Hospitality, F&B, and Non-Profit Organizations.</li><li><strong>Accounting System Implementation:</strong> Holding a Zahir Accounting certification, she is an expert in designing, supervising, and implementing bookkeeping digitalization to accelerate client reporting processes.</li></ul><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Education & Professional Licenses</h3><ul class='list-disc list-outside text-black space-y-2 ml-5'><li>Master of Accounting – Universitas Padjadjaran (On-Going)</li><li>Accounting Profession (Ak.) – Universitas Padjadjaran</li><li>Bachelor of Accounting – Universitas MH. Thamrin</li><li>CA (Chartered Accountant) – Indonesian Institute of Accountants</li><li>Tax Brevet A & B</li></ul>"
+        },
+        "frias": {
+            name: "Frias Valentino K.E., S. Ak., Ak., CA.",
+            role: "Partner – Internal Control, Fraud Mitigation & Business System Advisory",
+            img: "https://lh3.googleusercontent.com/d/1cXoqilJ_ll-siUH36dHg_cmM_btFV28B",
+            html: "<h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>About Him</h3><p class='text-black leading-relaxed mb-8'>Frias Valentino represents the profile of today's accountant and financial consultant: tactical, analytical, and system-resilience oriented. With prestigious licenses as a Chartered Accountant (CA) and Registered Accountant (Ak.), Frias has built an exceptionally broad career portfolio, assisting more than 30 business entities spanning the Mining, E-Commerce, Manufacturing/Garment, Food & Beverage (F&B), and Non-Profit Organization (NGO) sectors. His experience was forged through crucial roles, ranging from Auditor at a Public Accounting Firm (KAP) handling mining corporate consolidation audits, Internal Control Specialist in the Evermos ecosystem, to founding his own company. This 360-degree perspective enables Frias not only to present standard-compliant reports (PSAK/IFRS) but also to build a governance foundation that is immune to fraud risks (fraud-proof).</p><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Core Competencies</h3><ul class='service-list text-black space-y-3 mb-8'><li><strong>Fraud Management & Investigative Audit:</strong> Possesses sharp instincts and proven methodologies in detecting misstatements or potential fraud, and redesigning SOPs to close financial leakage loopholes.</li><li><strong>Internal Control & System Architecture:</strong> Expert in business flowcharting and implementing internal control systems as well as integrated ERP mentoring tailored to the scale and complexity of client operations.</li><li><strong>Consolidation & Complex Accounting:</strong> Highly experienced in executing audits and restating financial statements for complex business schemes, such as Holding Companies, Joint Operations, and the application of PSAK 111 and Sharia PSAK.</li><li><strong>Financial Forecasting & Costing:</strong> Converting bookkeeping data into business projections (forecasting analysis) using liquidity and profitability models, essential for startup and manufacturing business models.</li></ul><h3 class='text-xl font-bold text-black mb-3 border-l-4 border-brand-primary pl-3'>Key Experience & Track Record</h3><ul class='list-disc list-outside text-black space-y-2 ml-5'><li>Founder & Director – PT PembukuanQ Sukses Indonesia</li><li>Internal Control Specialist – Evermos Group</li><li>Auditor – KAP Titus Haryanto dan Mayhotraja</li><li>System Accountant (ERP Implementation) – PT Siven Teknologi Informasi</li><li>Lecturer Assistant (Advanced Accounting) – Universitas Widyatama</li></ul>"
+        }
+    };
