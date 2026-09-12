@@ -77,11 +77,12 @@ async function fetchAndDrawMap() {
     const mapContainer = document.getElementById('regions_div');
     const treeContainer = document.getElementById('industry_treemap');
     if (!mapContainer || !treeContainer) return;
-
+    
     const url = 'https://docs.google.com/spreadsheets/d/1LyOMXw6yn2AI_5s6OnUDiYZ-CYAkyyS9Rt0yPXpa1QA/gviz/tq?tqx=out:json&sheet=db';
     try {
         const res = await fetch(url);
         const text = await res.text();
+        
         const jsonString = text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1);
         const data = JSON.parse(jsonString);
 
@@ -96,6 +97,7 @@ async function fetchAndDrawMap() {
                 let provName = provCell.v.toString().trim();
                 let isoCode = mapProvinsiToISO(provName);
                 if(isoCode) { provData[isoCode] = (provData[isoCode] || 0) + 1; }
+                
                 let indCell = row.c[indIdx];
                 let indNameRaw = (indCell && indCell.v) ? indCell.v.toString().trim() : '';
                 if (indNameRaw !== '') {
@@ -107,24 +109,27 @@ async function fetchAndDrawMap() {
 
         const totalEl = document.getElementById('stat-total-companies');
         if(totalEl) totalEl.innerText = totalCompanies;
-
+        
         var mapTable = new google.visualization.DataTable();
-        mapTable.addColumn('string', 'Province'); mapTable.addColumn('number', 'Clients');
+        mapTable.addColumn('string', 'Province');
+        mapTable.addColumn('number', 'Clients');
+
         for (let iso in provData) { mapTable.addRow([iso, provData[iso]]); }
 
         var mapOptions = { region: 'ID', resolution: 'provinces', colorAxis: {colors: ['#fca5a5', '#E35336']}, backgroundColor: 'transparent', datalessRegionColor: '#e5e7eb', defaultColor: '#e5e7eb', tooltip: { trigger: 'focus' }, legend: 'none' };
         var mapChart = new google.visualization.GeoChart(mapContainer);
         mapChart.draw(mapTable, mapOptions);
-
+        
         var treeTable = new google.visualization.DataTable();
         treeTable.addColumn('string', 'Industry'); treeTable.addColumn('string', 'Parent'); treeTable.addColumn('number', 'Size'); treeTable.addColumn('number', 'Color');
         treeTable.addRow(['Industries', null, 0, 0]);
+
         for (let ind in industryData) { treeTable.addRow([ind, 'Industries', industryData[ind], industryData[ind]]); }
 
         var treeOptions = { minColor: '#ffbaba', midColor: '#E35336', maxColor: '#991b1b', headerHeight: 0, fontColor: '#ffffff', showScale: false, generateTooltip: showFullTooltip };
         var treeChart = new google.visualization.TreeMap(treeContainer);
         treeChart.draw(treeTable, treeOptions);
-
+        
         function showFullTooltip(row, size, value) {
             return '<div style="background:#fff;padding:10px;border:1px solid #e5e7eb;border-radius:4px;box-shadow:0 4px 6px -1px rgba(0, 0, 0, 0.1);"><span style="font-family:Roboto;font-weight:bold;color:#000;">' + treeTable.getValue(row, 0) + '</span><br><span style="font-family:Roboto;color:#6b7280;font-size:12px;">Total Clients: ' + size + '</span></div>';
         }
