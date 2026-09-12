@@ -2,19 +2,19 @@ window.addEventListener('load', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get('page');
     const partnerId = urlParams.get('id');
-    const isBloggerPage = window.location.pathname !== '/' && window.location.pathname !== '/index.html';
 
-    if (page) {
-        if (page === 'partner-detail-view' && partnerId) {
-            showPartnerProfile(partnerId);
-        } else {
-            showPage(page, false);
-        }
-    } else if (isBloggerPage) {
-        showBloggerNativeContent();
+    if (page === 'partner-detail-view' && partnerId) {
+        showPartnerProfile(partnerId);
+    } else if (page) {
+        showPage(page, false);
     } else {
-        showPage('home', false);
+        if(document.getElementById('home-view')) { document.getElementById('home-view').classList.remove('hidden'); }
     }
+    
+    if (!page || page === 'home') {
+        if (typeof google !== 'undefined' && google.visualization) { setTimeout(fetchAndDrawMap, 100); }
+    }
+    
     toggleAdminUI();
 });
 
@@ -22,33 +22,23 @@ window.addEventListener('popstate', function(event) {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get('page');
     const partnerId = urlParams.get('id');
-    const isBloggerPage = window.location.pathname !== '/' && window.location.pathname !== '/index.html';
-
+    
     if (page === 'partner-detail-view' && partnerId) {
         showPartnerProfile(partnerId);
-    } else if (page) {
-        showPage(page, false);
-    } else if (isBloggerPage) {
-        showBloggerNativeContent();
     } else {
-        showPage('home', false);
+        showPage(page || 'home', false);
     }
 });
 
-function showBloggerNativeContent() {
-    document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
-    const bloggerContent = document.getElementById('main-blogger-content');
-    if (bloggerContent) bloggerContent.classList.remove('hidden');
-}
-
 function showPage(pageId, addToHistory = true, partnerId = null) {
     const allPages = [
-        'home-view', 'company-profile', 'partner-detail-view', 'career-view', 'rfp-view',
+        'home-view', 'company-profile', 'partner-detail-view', 'career-view', 'rfp-view',   
         'service-pembukuan', 'service-pajak', 'service-internal-control', 'service-manajemen-keuangan',
-        'industry-financial', 'industry-tech-ecommerce', 'industry-manufacturing', 'industry-real-estate',
-        'industry-retail', 'industry-fnb', 'industry-services', 'industry-garment', 'industry-mining',
-        'industry-healthcare', 'industry-education-ngo', 'industry-holding', 'industry-agriculture',
-        'industry-entertainment'
+        'industry-fnb', 'industry-kecantikan', 'industry-textile', 'industry-garment', 'industry-konveksi',
+        'industry-ngo', 'industry-financial', 'industry-education-ngo', 'industry-tech-ecommerce',
+        'industry-manufacturing', 'industry-real-estate', 'industry-retail', 'industry-services',
+        'industry-mining', 'industry-healthcare', 'industry-holding', 'industry-agriculture', 'industry-entertainment',
+        'research-view', 'news-view', 'activities-view'
     ];
 
     let targetId = pageId;
@@ -56,21 +46,20 @@ function showPage(pageId, addToHistory = true, partnerId = null) {
     if (pageId === 'career') targetId = 'career-view';
     if (pageId === 'rfp') targetId = 'rfp-view'; 
 
-    if (!allPages.includes(targetId) && targetId !== 'home-view') {
-        targetId = 'home-view';
-    }
+    if (!allPages.includes(targetId) && targetId !== 'home-view') { targetId = 'home-view'; }
 
-    document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
-    const bloggerContent = document.getElementById('main-blogger-content');
-    if (bloggerContent) bloggerContent.classList.add('hidden');
+    allPages.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
 
     const targetEl = document.getElementById(targetId);
-    if (targetEl) targetEl.classList.remove('hidden');
-
-    if(targetId === 'home-view' && typeof google !== 'undefined' && google.visualization) {
-        setTimeout(fetchAndDrawMap, 100);
+    if (targetEl) { targetEl.classList.remove('hidden'); }
+    
+    if(targetId === 'home-view') {
+        if (typeof google !== 'undefined' && google.visualization) { setTimeout(fetchAndDrawMap, 100); }
     }
-
+    
     window.scrollTo(0,0);
 
     if (addToHistory) {
@@ -80,12 +69,9 @@ function showPage(pageId, addToHistory = true, partnerId = null) {
             url.searchParams.delete('id');
         } else {
             url.searchParams.set('page', pageId);
-            if (partnerId) { url.searchParams.set('id', partnerId); } 
-            else { url.searchParams.delete('id'); }
+            if (partnerId) { url.searchParams.set('id', partnerId); } else { url.searchParams.delete('id'); }
         }
-        if (url.href !== window.location.href) {
-            window.history.pushState({ page: pageId, id: partnerId }, '', url);
-        }
+        if (url.href !== window.location.href) { window.history.pushState({ page: pageId, id: partnerId }, '', url); }
     }
 }
 
