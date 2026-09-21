@@ -2,7 +2,7 @@ const servicesHTML = `
 <!-- SERVICE: BOOKKEEPING -->
 <div class='page-section hidden bg-white min-h-screen pb-20' id='service-pembukuan'>
     <div class='relative h-[400px] w-full flex items-center justify-center bg-gray-100 overflow-hidden'>
-        <img alt='Accounting' class='absolute inset-0 w-full h-full object-cover opacity-[0.15]' src='https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'>
+        <img alt='Accounting' class='absolute inset-0 w-full h-full object-cover opacity-[0.15]' src='https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1920&amp;q=80'>
         <div class='absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent'></div> 
         <div class='relative z-10 text-center px-4'>
             <h1 class='text-4xl md:text-5xl font-bold text-black mb-4'>Bookkeeping (Accounting)</h1>
@@ -48,7 +48,7 @@ const servicesHTML = `
 <!-- SERVICE: PAJAK -->
 <div class='page-section hidden bg-white min-h-screen pb-20' id='service-pajak'>
     <div class='relative h-[400px] w-full flex items-center justify-center bg-gray-100 overflow-hidden'>
-        <img alt='Tax Services' class='absolute inset-0 w-full h-full object-cover opacity-[0.15]' src='https://images.unsplash.com/photo-1554224154-26032ffc0d04?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'>
+        <img alt='Tax Services' class='absolute inset-0 w-full h-full object-cover opacity-[0.15]' src='https://images.unsplash.com/photo-1554224154-26032ffc0d04?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1920&amp;q=80'>
         <div class='absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent'></div> 
         <div class='relative z-10 text-center px-4'>
             <h1 class='text-4xl md:text-5xl font-bold text-black mb-4'>Tax Services</h1>
@@ -94,7 +94,7 @@ const servicesHTML = `
 <!-- SERVICE: INTERNAL CONTROL -->
 <div class='page-section hidden bg-white min-h-screen pb-20' id='service-internal-control'>
     <div class='relative h-[400px] w-full flex items-center justify-center bg-gray-100 overflow-hidden'>
-        <img alt='Internal Control' class='absolute inset-0 w-full h-full object-cover opacity-[0.15]' src='https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'>
+        <img alt='Internal Control' class='absolute inset-0 w-full h-full object-cover opacity-[0.15]' src='https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1920&amp;q=80'>
         <div class='absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent'></div> 
         <div class='relative z-10 text-center px-4'>
             <h1 class='text-4xl md:text-5xl font-bold text-black mb-4'>Internal Control</h1>
@@ -140,7 +140,7 @@ const servicesHTML = `
 <!-- SERVICE: FINANCIAL MANAGEMENT -->
 <div class='page-section hidden bg-white min-h-screen pb-20' id='service-manajemen-keuangan'>
     <div class='relative h-[400px] w-full flex items-center justify-center bg-gray-100 overflow-hidden'>
-        <img alt='Financial Management' class='absolute inset-0 w-full h-full object-cover opacity-[0.15]' src='https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'>
+        <img alt='Financial Management' class='absolute inset-0 w-full h-full object-cover opacity-[0.15]' src='https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1920&amp;q=80'>
         <div class='absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent'></div> 
         <div class='relative z-10 text-center px-4'>
             <h1 class='text-4xl md:text-5xl font-bold text-black mb-4'>Financial Management</h1>
@@ -183,9 +183,4 @@ const servicesHTML = `
     </div>
 </div>
 `;
-
-// Memasukkan HTML yang diekstrak ke dalam struktur DOM
-const container = document.getElementById('dynamic-pages-container');
-if (container) {
-    container.insertAdjacentHTML('beforeend', servicesHTML);
-}
+document.getElementById('dynamic-pages-container').insertAdjacentHTML('beforeend', servicesHTML);
