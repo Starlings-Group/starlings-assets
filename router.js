@@ -2,33 +2,45 @@ window.addEventListener('load', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get('page');
     const partnerId = urlParams.get('id');
+    
+    // Deteksi jika ini adalah URL bawaan Blogger (bukan root url)
+    const isBloggerPage = window.location.pathname !== '/' && window.location.pathname !== '/index.html';
 
-    if (page === 'partner-detail-view' && partnerId) {
-        showPartnerProfile(partnerId);
-    } else if (page) {
-        showPage(page, false);
+    if (page) {
+        if (page === 'partner-detail-view' && partnerId) {
+            showPartnerProfile(partnerId);
+        } else {
+            showPage(page, false);
+        }
+    } else if (isBloggerPage) {
+        // Jika berada di halaman post atau label Blogger, tampilkan wadah Blogger
+        showBloggerNativeContent();
     } else {
-        if(document.getElementById('home-view')) { document.getElementById('home-view').classList.remove('hidden'); }
+        // Jika benar-benar di halaman depan tanpa parameter
+        showPage('home', false);
     }
     
-    if (!page || page === 'home') {
-        if (typeof google !== 'undefined' && google.visualization) { setTimeout(fetchAndDrawMap, 100); }
+    if (typeof toggleAdminUI === 'function') {
+        toggleAdminUI();
     }
-    
-    toggleAdminUI();
 });
 
+// Gunakan reload untuk popstate (tombol back/forward) agar aman antara SPA dan native Blogger
 window.addEventListener('popstate', function(event) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const page = urlParams.get('page');
-    const partnerId = urlParams.get('id');
-    
-    if (page === 'partner-detail-view' && partnerId) {
-        showPartnerProfile(partnerId);
-    } else {
-        showPage(page || 'home', false);
-    }
+    window.location.reload();
 });
+
+function showBloggerNativeContent() {
+    // Sembunyikan semua section SPA
+    document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+    
+    // Tampilkan section khusus postingan Blogger
+    const bloggerContent = document.getElementById('main-blogger-content');
+    if (bloggerContent) { 
+        bloggerContent.classList.remove('hidden'); 
+    }
+    window.scrollTo(0,0);
+}
 
 function showPage(pageId, addToHistory = true, partnerId = null) {
     const allPages = [
@@ -37,8 +49,7 @@ function showPage(pageId, addToHistory = true, partnerId = null) {
         'industry-fnb', 'industry-kecantikan', 'industry-textile', 'industry-garment', 'industry-konveksi',
         'industry-ngo', 'industry-financial', 'industry-education-ngo', 'industry-tech-ecommerce',
         'industry-manufacturing', 'industry-real-estate', 'industry-retail', 'industry-services',
-        'industry-mining', 'industry-healthcare', 'industry-holding', 'industry-agriculture', 'industry-entertainment',
-        'research-view', 'news-view', 'activities-view'
+        'industry-mining', 'industry-healthcare', 'industry-holding', 'industry-agriculture', 'industry-entertainment'
     ];
 
     let targetId = pageId;
@@ -48,20 +59,21 @@ function showPage(pageId, addToHistory = true, partnerId = null) {
 
     if (!allPages.includes(targetId) && targetId !== 'home-view') { targetId = 'home-view'; }
 
-    allPages.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('hidden');
-    });
+    // Sembunyikan semua section termasuk wadah Blogger
+    document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
 
+    // Tampilkan target SPA
     const targetEl = document.getElementById(targetId);
     if (targetEl) { targetEl.classList.remove('hidden'); }
     
+    // Render Map jika kembali ke home
     if(targetId === 'home-view') {
         if (typeof google !== 'undefined' && google.visualization) { setTimeout(fetchAndDrawMap, 100); }
     }
     
     window.scrollTo(0,0);
 
+    // Update URL History
     if (addToHistory) {
         const url = new URL(window.location);
         if (targetId === 'home-view') {
@@ -73,15 +85,4 @@ function showPage(pageId, addToHistory = true, partnerId = null) {
         }
         if (url.href !== window.location.href) { window.history.pushState({ page: pageId, id: partnerId }, '', url); }
     }
-}
-
-function showPartnerProfile(id) {
-    const data = partnerInfoData[id];
-    if (!data) return;
-    document.getElementById('pd-img').src = data.img;
-    document.getElementById('pd-name').innerText = data.name;
-    document.getElementById('pd-role').innerText = data.role;
-    document.getElementById('pd-content').innerHTML = data.html;
-    showPage('partner-detail-view', true, id);
-    if(isAdmin) toggleAdminUI();
 }
